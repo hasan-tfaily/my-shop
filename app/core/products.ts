@@ -26,17 +26,22 @@ export class Product implements ProductsType {
   private _title?: string;
 
   constructor(data: ProductsType) {
-    this._brand = data.brand;
-    this._category = data.category;
-    this._description = data.description;
-    this._discountPercentage = data.discountPercentage;
     this._id = data.id;
-    this._images = data.images;
+    this._title = data.title;
+    this._description = data.description;
     this._price = data.price;
+    this._discountPercentage = data.discountPercentage;
     this._rating = data.rating;
     this._stock = data.stock;
+    this._brand = data.brand;
+    this._category = data.category;
     this._thumbnail = data.thumbnail;
-    this._title = data.title;
+    this._images = data.images;
+    
+
+
+
+   
   }
 
   get brand(): string | undefined {
