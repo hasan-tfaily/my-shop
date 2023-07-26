@@ -1,4 +1,5 @@
 import { Navbar } from "./navbar";
+import { ProductsProvider } from "./productprovider";
 import { Products } from "./products";
 
 export interface MyShopMainPageProps {}

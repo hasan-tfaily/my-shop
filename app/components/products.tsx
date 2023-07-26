@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Product, ProductsType } from "../core/products";
+import { useProductContext } from "./productprovider";
+import { OneProduct } from "./product";
 
 export interface ProductsProps {}
 
@@ -10,25 +12,13 @@ interface proType {
 }
 
 export const Products = ({}: ProductsProps) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { products } = useProductContext();
 
-  useEffect(() => {
-    fetch("https://dummyjson.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        // Extract the products array from the received data
-        const productData = data.products || [];
-        // Convert the received data into Product instances and store them in the state
-        const productInstances = productData.map(
-          (productData: ProductsType) => new Product(productData)
-        );
-        setProducts(productInstances);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
-  const prod: proType = { products };
-  console.log(prod);
-
-  return <div></div>;
+  return (
+    <div className="!grid !grid-cols-3 px-20">
+      {products.map((item, index) => {
+        return <OneProduct key={index} product={item} />;
+      })}
+    </div>
+  );
 };
