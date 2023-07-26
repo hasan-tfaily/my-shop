@@ -3,22 +3,21 @@ import { Product, ProductsType } from "../core/products";
 
 export interface ProductsProps {}
 
-interface proType {
-  products: {
-    products: ProductsType[];
-  };
-}
-
 interface ProductContextType {
   products: Product[];
+  setId?: (id: number | undefined) => void;
+  id?: number; // Include setId in the interface
 }
+
 const initialValue: ProductContextType = {
   products: [],
 };
+
 const ProductContext = createContext<ProductContextType>(initialValue);
 
 export const ProductsProvider = ({ children }: any) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [id, setId] = useState<number | undefined>(undefined); // Define the type of id as number | undefined
 
   useEffect(() => {
     fetch("https://dummyjson.com/products")
@@ -37,9 +36,10 @@ export const ProductsProvider = ({ children }: any) => {
 
   return (
     // Provide the products state through the context
-    <ProductContext.Provider value={{ products }}>
+    <ProductContext.Provider value={{ products, setId, id }}>
       {children}
     </ProductContext.Provider>
   );
 };
+
 export const useProductContext = () => useContext(ProductContext);
