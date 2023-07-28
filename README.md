@@ -10,6 +10,8 @@ npm run dev
 yarn dev
 # or
 pnpm dev
+# use node version 18 
+nvm use 18
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
