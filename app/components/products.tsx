@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useProductContext } from "./productprovider";
 import { OneProduct } from "./product";
+import { ProductsType } from "../core/products";
 
 export interface ProductsProps {}
 
@@ -11,7 +12,7 @@ export const Products = ({}: ProductsProps) => {
 
   const handleOnclick = () => {
     const filtered = products.filter((item) =>
-      item.title.toLowerCase().includes(inputValue.toLowerCase())
+      item.title?.toLowerCase().includes(inputValue.toLowerCase())
     );
     setFilteredProducts(filtered);
   };
