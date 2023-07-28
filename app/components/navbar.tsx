@@ -8,7 +8,7 @@ export interface NavbarProps {}
 export const Navbar = ({}: NavbarProps) => {
 
   const { products } = useProductContext();
-  console.log(products);
+
   return (
     <div className="bg-white xl:pl-72 lg:pl-10 md:pl-0 text-black ">
       <div className="grid grid-cols-2 xl:gap-x-44 lg:gap-x-0  sm:gap-x-0  md:gap-x-0  ">
