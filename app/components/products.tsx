@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useProductContext } from "./productprovider";
 import { OneProduct } from "./product";
-import { ProductsType } from "../core/products";
+import { Product, ProductsType } from "../core/products";
 
 export interface ProductsProps {}
 
 export const Products = ({}: ProductsProps) => {
   const { products } = useProductContext();
   const [inputValue, setInputValue] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState<ProductsType[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   const handleOnclick = () => {
     const filtered = products.filter((item) =>

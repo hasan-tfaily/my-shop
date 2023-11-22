@@ -2,9 +2,10 @@ import Image from "next/image";
 import { Product, ProductsType } from "../core/products";
 import { useProductContext } from "./productprovider";
 import { useRouter } from "next/router";
+import { Counter } from "./counter";
 
 export interface OneProductProps {
-  product?: ProductsType;
+  product?: Product;
   className?: string;
 }
 
@@ -14,21 +15,32 @@ export const OneProduct = ({ product, className }: OneProductProps) => {
     setId?.(id);
     window.location.href = `/productProfile/${product?.id}`;
   };
-  console.log(id);
-  return (
-    <a
-      className={`bg-white shadow-md rounded text-black m-5 group cursor-pointer   ${
-        className ?? ""
-      }`}
-      onClick={() => onclick(product?.id)}
-      // Wrap the function call inside another function
-    >
-      <div className="flex justify-center">
-        <img src={product?.images[0]} alt={`Image`} className="h-40  " />
-      </div>
-      <h1 className=" group-hover:underline">{product?.title}</h1>
 
-      <h1 className="text-xl">{product?.price} $</h1>
-    </a>
+  return (
+    <div className="bg-white shadow-md rounded text-black m-5 group cursor-pointer ">
+      <a
+        className={`  ${className ?? ""}`}
+        onClick={() => onclick(product?.id || 0)}
+        // Wrap the function call inside another function
+      >
+        <div className="flex justify-center">
+          <img
+            src={product?.images?.[0] || "/images/placeholder.png"}
+            alt={`Image`}
+            className="h-40"
+          />
+        </div>
+        <h1 className=" ">{product?.title}</h1>
+
+        <h1 className="text-xl">{product?.price} $</h1>
+      </a>
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <Counter product={product!} />
+      </div>
+    </div>
   );
 };

@@ -17,4 +17,14 @@ export class ProductsRepo {
         return [];
       });
   }
+
+  async addToCart(product: Product, count: number): Promise<boolean> {
+    try {
+      localStorage.setItem("count", JSON.stringify({ ...product, count }));
+      return true;
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+      return false;
+    }
+  }
 }
