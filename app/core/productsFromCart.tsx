@@ -1,31 +1,24 @@
-export interface ProductsType {
-  brand?: string;
-  category?: string;
-  description?: string;
-  discountPercentage?: number;
-  id?: number;
-  images?: any[];
-  price?: number;
-  rating?: number;
-  stock?: number;
-  thumbnail?: string;
-  title?: string;
+import { Product, ProductsType } from "./products";
+
+export interface CartProductsType extends ProductsType {
+  count?: number;
 }
 
-export class Product implements ProductsType {
-  private _brand?: string;
-  private _category?: string;
-  private _description?: string;
-  private _discountPercentage?: number;
-  private _id?: number;
-  private _images?: any[];
-  private _price?: number;
-  private _rating?: number;
-  private _stock?: number;
-  private _thumbnail?: string;
-  private _title?: string;
+export class CartProduct implements CartProductsType {
+  private _count?: number;
+  protected _brand?: string;
+  protected _category?: string;
+  protected _description?: string;
+  protected _discountPercentage?: number;
+  protected _id?: number;
+  protected _images?: any[];
+  protected _price?: number;
+  protected _rating?: number;
+  protected _stock?: number;
+  protected _thumbnail?: string;
+  protected _title?: string;
 
-  constructor(data: ProductsType) {
+  constructor(data: CartProductsType) {
     this._id = data.id;
     this._title = data.title;
     this._description = data.description;
@@ -37,6 +30,7 @@ export class Product implements ProductsType {
     this._category = data.category;
     this._thumbnail = data.thumbnail;
     this._images = data.images;
+    this._count = data?.count;
   }
 
   get brand(): string | undefined {
@@ -82,20 +76,7 @@ export class Product implements ProductsType {
   get title(): string | undefined {
     return this._title;
   }
-
-  toJson(): ProductsType {
-    return {
-      id: this.id,
-      brand: this.brand,
-      category: this.category,
-      description: this.description,
-      discountPercentage: this.discountPercentage,
-      images: this.images,
-      price: this.price,
-      rating: this.rating,
-      stock: this.stock,
-      thumbnail: this.thumbnail,
-      title: this.title,
-    };
+  get count() {
+    return this._count;
   }
 }

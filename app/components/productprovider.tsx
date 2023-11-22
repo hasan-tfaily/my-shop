@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { Product, ProductsType } from "../core/products";
 import { ProductsRepo } from "../core/productsRepo";
+import { CartProduct } from "../core/productsFromCart";
 
 export interface ProductsProps {}
 
@@ -17,7 +18,7 @@ interface ProductContextType {
   id?: number; // Include setId in the interface
   getFromCart?: () => Promise<void>;
   addToCart?: (product: Product, count: number) => Promise<boolean>;
-  cartProducts?: any;
+  cartProducts?: CartProduct;
 }
 
 const initialValue: ProductContextType = {
@@ -28,7 +29,7 @@ const ProductContext = createContext<ProductContextType>(initialValue);
 
 export const ProductsProvider = ({ children }: any) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [cartProducts, setCartProducts] = useState<any>();
+  const [cartProducts, setCartProducts] = useState<CartProduct>();
   const [id, setId] = useState<number | undefined>(undefined);
   const productRepo = useMemo(() => new ProductsRepo(), []);
 
@@ -39,7 +40,7 @@ export const ProductsProvider = ({ children }: any) => {
 
   const addToCart = useCallback(
     async (product: Product, count: number) => {
-      const response = await productRepo.addToCart(product, count);
+      const response = await productRepo.addToCart(product.toJson(), count);
       return response;
     },
     [productRepo]
@@ -47,12 +48,13 @@ export const ProductsProvider = ({ children }: any) => {
 
   const getFromCart = useCallback(async () => {
     const products = await productRepo.getFromCart();
-    setCartProducts(products);
+    setCartProducts(products!);
   }, [productRepo]);
 
   useEffect(() => {
     getProducts();
-  }, [getProducts]);
+    getFromCart();
+  }, [getProducts, getFromCart]);
 
   return (
     <ProductContext.Provider

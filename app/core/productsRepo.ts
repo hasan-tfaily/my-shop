@@ -1,4 +1,5 @@
 import { Product, ProductsType } from "./products";
+import { CartProduct, CartProductsType } from "./productsFromCart";
 
 export class ProductsRepo {
   async getProducts(): Promise<Product[]> {
@@ -18,9 +19,9 @@ export class ProductsRepo {
       });
   }
 
-  async addToCart(product: Product, count: number): Promise<boolean> {
+  async addToCart(product: ProductsType, _count: number): Promise<boolean> {
     try {
-      localStorage.setItem("count", JSON.stringify({ ...product, count }));
+      localStorage.setItem("count", JSON.stringify({ ...product, _count }));
       return true;
     } catch (error) {
       console.error("Error adding product to cart:", error);
@@ -28,18 +29,20 @@ export class ProductsRepo {
     }
   }
 
-  async getFromCart(): Promise<{ product?: Product; count: number }> {
+  async getFromCart(): Promise<CartProduct | null> {
     try {
       const cartData = localStorage.getItem("count");
+
       if (cartData) {
-        const { product, count } = JSON.parse(cartData);
-        return { product, count };
+        const product: CartProduct = new CartProduct(JSON.parse(cartData));
+        console.log(JSON.parse(cartData));
+        return product;
       } else {
-        return { count: 0 };
+        return null;
       }
     } catch (error) {
       console.error("Error retrieving count from cart:", error);
-      return { count: 0 };
+      return null;
     }
   }
 }

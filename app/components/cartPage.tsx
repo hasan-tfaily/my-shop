@@ -1,3 +1,11 @@
+import { useEffect } from "react";
+import { useProductContext } from "./productprovider";
+import { OneCartProduct } from "./carProduct";
+
 export const CartMainPage = () => {
-  return <div>hellp iam the cart page</div>;
+  const { cartProducts } = useProductContext();
+  console.log(cartProducts);
+  return (
+    <div>{cartProducts ? <OneCartProduct product={cartProducts} /> : ""}</div>
+  );
 };
