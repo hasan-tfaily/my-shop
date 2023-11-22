@@ -15,13 +15,14 @@ export const OneProduct = ({ product, className }: OneProductProps) => {
     setId?.(id);
     window.location.href = `/productProfile/${product?.id}`;
   };
+    const { cartProducts } = useProductContext();
+    console.log(cartProducts);
 
   return (
     <div className="bg-white shadow-md rounded text-black m-5 group cursor-pointer ">
       <a
         className={`  ${className ?? ""}`}
         onClick={() => onclick(product?.id || 0)}
-        // Wrap the function call inside another function
       >
         <div className="flex justify-center">
           <img

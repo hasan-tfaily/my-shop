@@ -27,4 +27,21 @@ export class ProductsRepo {
       return false;
     }
   }
+
+  async getFromCart(): Promise<{ product?: Product; count: number }> {
+    try {
+      const cartData = localStorage.getItem("count");
+      if (cartData) {
+        const { product, count } = JSON.parse(cartData);
+        return { product, count };
+      } else {
+        return { count: 0 };
+      }
+    } catch (error) {
+      console.error("Error retrieving count from cart:", error);
+      return { count: 0 };
+    }
+  }
 }
+  
+

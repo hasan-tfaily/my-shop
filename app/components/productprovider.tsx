@@ -15,7 +15,9 @@ interface ProductContextType {
   products: Product[];
   setId?: (id: number | undefined) => void;
   id?: number; // Include setId in the interface
+  getFromCart?: () => Promise<void>;
   addToCart?: (product: Product, count: number) => Promise<boolean>;
+  cartProducts?: any;
 }
 
 const initialValue: ProductContextType = {
@@ -26,6 +28,7 @@ const ProductContext = createContext<ProductContextType>(initialValue);
 
 export const ProductsProvider = ({ children }: any) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [cartProducts, setCartProducts] = useState<any>();
   const [id, setId] = useState<number | undefined>(undefined);
   const productRepo = useMemo(() => new ProductsRepo(), []);
 
@@ -42,12 +45,19 @@ export const ProductsProvider = ({ children }: any) => {
     [productRepo]
   );
 
+  const getFromCart = useCallback(async () => {
+    const products = await productRepo.getFromCart();
+    setCartProducts(products);
+  }, [productRepo]);
+
   useEffect(() => {
     getProducts();
   }, [getProducts]);
 
   return (
-    <ProductContext.Provider value={{ products, setId, id, addToCart }}>
+    <ProductContext.Provider
+      value={{ products, setId, id, addToCart, getFromCart, cartProducts }}
+    >
       {children}
     </ProductContext.Provider>
   );
